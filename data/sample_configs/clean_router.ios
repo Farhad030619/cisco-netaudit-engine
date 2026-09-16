@@ -1,0 +1,55 @@
+! Hardened Router Configuration
+version 17.3
+service password-encryption
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service pad
+!
+hostname EDGE-R1
+!
+ip domain-name enterprise.corp
+!
+aaa new-model
+aaa authentication login default local
+!
+enable secret 9 $9$m07j7XyHkK8v1.$...
+username admin privilege 15 algorithm-type scrypt secret 9 $9$P1...
+!
+ip ssh version 2
+ip ssh time-out 60
+ip ssh authentication-retries 3
+no ip http server
+no ip http secure-server
+no ip domain-lookup
+!
+banner motd ^C
+AUTHORIZED ACCESS ONLY.
+^C
+!
+interface GigabitEthernet0/0
+ description WAN to ISP
+ ip address 198.51.100.2 255.255.255.252
+ no shutdown
+!
+interface GigabitEthernet0/1
+ description LAN Gateway
+ ip address 10.10.1.1 255.255.255.0
+ no shutdown
+!
+router ospf 1
+ router-id 10.10.1.1
+ network 10.10.1.0 0.0.0.255 area 0
+!
+logging trap notifications
+logging host 10.10.1.50
+ntp server 192.168.1.1
+!
+line con 0
+ exec-timeout 10 0
+ logging synchronous
+line vty 0 15
+ exec-timeout 10 0
+ transport input ssh
+ logging synchronous
+!
+end

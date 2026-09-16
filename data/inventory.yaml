@@ -1,0 +1,80 @@
+# ==============================================================================
+# Network Inventory & Data Model (Single Source of Truth)
+# ==============================================================================
+
+routers:
+  - hostname: "CORE-R1-STHLM"
+    mgmt_ip: "10.255.0.1"
+    domain_name: "enterprise.corp"
+    ntp_servers:
+      - "192.168.10.1"
+      - "192.168.10.2"
+    syslog_server: "10.255.0.100"
+    dns_servers:
+      - "1.1.1.1"
+      - "8.8.8.8"
+    banner: "AUTHORIZED ACCESS ONLY. ALL SESSIONS MONITORED."
+    
+    ospf:
+      process_id: 1
+      router_id: "1.1.1.1"
+      networks:
+        - network: "10.1.0.0"
+          wildcard: "0.0.0.3"
+          area: 0
+        - network: "10.2.0.0"
+          wildcard: "0.0.0.3"
+          area: 0
+
+    bgp:
+      asn: 65001
+      router_id: "1.1.1.1"
+      neighbors:
+        - ip: "172.16.1.2"
+          remote_as: 65002
+          description: "WAN Uplink to ISP-A"
+
+    interfaces:
+      - name: "GigabitEthernet0/0"
+        description: "Core Link to PE-R2"
+        ip: "10.1.0.1"
+        mask: "255.255.255.252"
+        ospf_cost: 10
+        enabled: true
+      - name: "GigabitEthernet0/1"
+        description: "WAN Handover ISP-A"
+        ip: "172.16.1.1"
+        mask: "255.255.255.252"
+        enabled: true
+      - name: "Loopback0"
+        description: "Router-ID & BGP peering loopback"
+        ip: "1.1.1.1"
+        mask: "255.255.255.255"
+        enabled: true
+
+switches:
+  - hostname: "DIST-SW1-FLOOR2"
+    mgmt_ip: "10.255.1.10"
+    domain_name: "enterprise.corp"
+    vlans:
+      - id: 10
+        name: "Corporate_Data"
+      - id: 20
+        name: "Voice_VoIP"
+      - id: 99
+        name: "Management"
+    interfaces:
+      - name: "GigabitEthernet1/0/1"
+        description: "Access Port - Workstation 101"
+        mode: "access"
+        access_vlan: 10
+        voice_vlan: 20
+        portfast: true
+        bpduguard: true
+      - name: "GigabitEthernet1/0/24"
+        description: "Trunk Uplink to CORE-R1"
+        mode: "trunk"
+        native_vlan: 99
+        allowed_vlans: "10,20,99"
+        portfast: false
+        bpduguard: false

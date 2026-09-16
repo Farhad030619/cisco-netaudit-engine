@@ -1,0 +1,36 @@
+! Vulnerable Legacy Router Configuration
+version 15.1
+!
+hostname LEGACY-R1
+!
+enable password cisco123
+username admin password cisco
+!
+ip http server
+!
+interface GigabitEthernet0/0
+ description WAN to ISP
+ ip address 198.51.100.2 255.255.255.252
+ no shutdown
+!
+interface GigabitEthernet0/1
+ description LAN Gateway
+ ip address 10.10.1.1 255.255.255.0
+ no shutdown
+!
+snmp-server community public RW
+!
+router ospf 1
+ network 0.0.0.0 255.255.255.255 area 0
+!
+line con 0
+ password cisco
+ login
+line vty 0 4
+ password cisco
+ login
+ transport input all
+line vty 5 15
+ login
+!
+end
