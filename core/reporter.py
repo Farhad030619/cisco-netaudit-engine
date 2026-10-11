@@ -13,7 +13,7 @@ console = Console()
 
 def print_banner():
     banner_text = Text()
-    banner_text.append("🛡️  CISCO-NETAUDIT & CONFIG ENGINE  🛡️\n", style="bold cyan")
+    banner_text.append("CISCO-NETAUDIT & CONFIG ENGINE\n", style="bold cyan")
     banner_text.append("Enterprise Network Automation & Security Compliance Framework\n", style="italic white")
     banner_text.append("Author: Farhad Jelve | Cisco CCNP Enterprise Certified", style="dim")
     console.print(Panel(banner_text, border_style="cyan", expand=False))
