@@ -122,7 +122,7 @@ class ConfigAuditor:
         ))
 
         # 8. Centralized Logging (Syslog)
-        has_syslog = self._has_regex(r"^logging host \d+\.\d+\.\d+\.\d+", re.MULTILINE)
+        has_syslog = self._has_regex(r"^logging (?:host )?\d+\.\d+\.\d+\.\d+", re.MULTILINE)
         results.append(AuditResult(
             rule_id="OPS-001",
             title="Centralized Syslog Host",

@@ -50,6 +50,34 @@ Scans existing Cisco `running-config` files and evaluates them against 10 critic
 
 ---
 
+## Verified Live Execution (Packet Tracer & Engine)
+
+To validate the framework against realistic networking environments, the engine was executed against an active Cisco ISR4321 running-configuration extracted from an enterprise lab topology in Cisco Packet Tracer 9.0.
+
+<p align="center">
+  <img src="docs/images/packet_tracer_topology.png" alt="Cisco Enterprise Lab Topology in Packet Tracer" width="340">
+  <br>
+  <em>Figure 1: Hierarchical Enterprise Topology (Core ISR4321, Distribution Catalyst 2960, and Out-of-Band Console Administration).</em>
+</p>
+
+### Real-Time Compliance Audit Results
+
+The operational running-configuration was exported directly from CORE-R1-STHLM and processed through main.py audit:
+
+<p align="center">
+  <img src="docs/images/live_audit_execution.png" alt="Live Audit Execution on macOS Terminal" width="700">
+  <br>
+  <em>Figure 2: Real-time compliance audit executed in macOS Terminal, scoring 94% (Grade A Exemplary) with automatic remediation reporting.</em>
+</p>
+
+### Verification Breakdown
+- **Hardware Emulated:** Cisco ISR 4321 (CORE-R1-STHLM) and Cisco Catalyst 2960-24TT (DIST-SW1-FLOOR2).
+- **Provisioning Method:** Day-0 out-of-band serial console connection via RS-232 to Cisco IOS console port.
+- **Security Hardening Applied:** Type-5 enable secret, encrypted service passwords, SSHv2 enforcement with 2048-bit RSA keys, legal MOTD banner, remote logging to centralized Syslog (10.255.0.100), and NTP synchronization.
+- **Audit Findings:** 9 out of 10 CIS benchmark rules passed immediately (94% Compliance Score, Grade A). The auditor correctly identified that session inactivity timeouts (exec-timeout) were missing on the VTY lines, outputting the exact CLI remediation fix.
+
+---
+
 ## Architecture
 
 ```mermaid
