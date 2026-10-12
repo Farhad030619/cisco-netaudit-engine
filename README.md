@@ -65,7 +65,7 @@ To validate the framework against realistic networking environments, the engine 
 The operational running-configuration was exported directly from CORE-R1-STHLM and processed through main.py audit:
 
 <p align="center">
-  <img src="docs/images/live_audit_execution.png" alt="Live Audit Execution on macOS Terminal" width="700">
+  <img src="docs/images/verified_audit_execution.png" alt="Live Audit Execution on macOS Terminal" width="700">
   <br>
   <em>Figure 2: Real-time compliance audit executed in macOS Terminal, scoring 94% (Grade A Exemplary) with automatic remediation reporting.</em>
 </p>
